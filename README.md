@@ -1,0 +1,4 @@
+Learning React by building a Trivia app powered by Open Trivia Database
+
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+
