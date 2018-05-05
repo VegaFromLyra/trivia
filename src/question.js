@@ -1,12 +1,29 @@
 import React, { Component } from "react";
 
 class Question extends React.Component {
+  constructor () {
+    super();
+    this.state = {
+      trivia: {},
+    };
+  }
+
+  componentWillMount() {
+    fetch(process.env.REACT_APP_TRIVIA_API).then(response => {
+      return response.json();
+    }).then(data => {
+      this.setState({
+        trivia: data.results[0]
+      });
+    });
+  }
+
   render() {
     return (
       <div className="QuestionContainer">
         <form className="QuestionForm">
           <label>
-            What is the largest organ of the human body?
+             { this.state.trivia.question }
             <div className="Answer">
               <input type="text" name="answer"/>
             </div>
