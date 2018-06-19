@@ -1,11 +1,25 @@
 import React, { Component } from "react";
 
 class Question extends React.Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
+
     this.state = {
       trivia: {},
+      submittedAnswer: ""
     };
+  }
+
+  onSubmit = (e) => {
+    if (this.state.submittedAnswer === this.state.trivia.correct_answer) {
+      console.log("yayyy")
+    } else {
+      console.log("booo")
+    }
+  }
+
+  onChangeAnswer = (e) => {
+    this.setState({ submittedAnswer: e.target.value })
   }
 
   componentWillMount() {
@@ -21,11 +35,11 @@ class Question extends React.Component {
   render() {
     return (
       <div className="QuestionContainer">
-        <form className="QuestionForm">
+        <form className="QuestionForm" onSubmit={this.onSubmit}>
           <label>
              { this.state.trivia.question }
             <div className="Answer">
-              <input type="text" name="answer"/>
+              <input type="text" name="answer" onChange={this.onChangeAnswer}/>
             </div>
           </label>
           <div className="SubmitContainer">
