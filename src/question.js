@@ -5,7 +5,8 @@ class Question extends React.Component {
     super(props);
 
     this.state = {
-      trivia: {},
+      question: "",
+      all_answers: [],
       submittedAnswer: ""
     };
   }
@@ -26,8 +27,12 @@ class Question extends React.Component {
     fetch(process.env.REACT_APP_TRIVIA_API).then(response => {
       return response.json();
     }).then(data => {
+      var first_qna_set = data.results[0];
+      var question = first_qna_set.question;
+      var all_answers = [first_qna_set.correct_answer].concat(first_qna_set.incorrect_answers);
       this.setState({
-        trivia: data.results[0]
+        question: question,
+        all_answers: all_answers
       });
     });
   }
@@ -37,14 +42,20 @@ class Question extends React.Component {
       <div className="QuestionContainer">
         <form className="QuestionForm" onSubmit={this.onSubmit}>
           <label>
-             { this.state.trivia.question }
-            <div className="Answer">
-              <input type="text" name="answer" onChange={this.onChangeAnswer}/>
-            </div>
-          </label>
-          <div className="SubmitContainer">
-            <input type="submit" value="Submit" />
-          </div>
+            { this.state.question }
+           </label>
+           <div className="Answer">
+             {
+               this.state.all_answers.map((answer, index) =>
+                 <label>
+                   <input type="radio" key={index} value={answer} /> {answer}
+                 </label>
+               )
+             }
+           </div>
+           <div className="SubmitContainer">
+             <input type="submit" value="Submit" />
+           </div>
         </form>
       </div>
     );
