@@ -6,13 +6,14 @@ class Question extends React.Component {
 
     this.state = {
       question: "",
-      all_answers: [],
-      submittedAnswer: ""
+      allAnswers: [],
+      actualAnswer: "",
+      expectedAnswer: ""
     };
   }
 
   onSubmit = (e) => {
-    if (this.state.submittedAnswer === this.state.trivia.correct_answer) {
+    if (this.state.actualAnswer === this.state.expectedAnswer) {
       console.log("yayyy")
     } else {
       console.log("booo")
@@ -20,7 +21,7 @@ class Question extends React.Component {
   }
 
   onChangeAnswer = (e) => {
-    this.setState({ submittedAnswer: e.target.value })
+    this.setState({ actualAnswer: e.target.value })
   }
 
   componentWillMount() {
@@ -29,10 +30,11 @@ class Question extends React.Component {
     }).then(data => {
       var first_qna_set = data.results[0];
       var question = first_qna_set.question;
-      var all_answers = [first_qna_set.correct_answer].concat(first_qna_set.incorrect_answers);
+      var allAnswers = [first_qna_set.correct_answer].concat(first_qna_set.incorrect_answers);
       this.setState({
         question: question,
-        all_answers: all_answers
+        expectedAnswer: first_qna_set.correct_answer,
+        allAnswers: allAnswers
       });
     });
   }
@@ -46,10 +48,10 @@ class Question extends React.Component {
            </label>
            <div className="Answer">
              {
-               this.state.all_answers.map((answer, index) =>
-                 <label>
-                   <input type="radio" key={index} value={answer} /> {answer}
-                 </label>
+               this.state.allAnswers.map((answer, index) =>
+                 <div>
+                   <input name="choices" type="radio" value={answer} onChange={this.onChangeAnswer} /> {answer}
+                 </div>
                )
              }
            </div>
