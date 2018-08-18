@@ -13,10 +13,11 @@ class Question extends React.Component {
   }
 
   onSubmit = (e) => {
+    e.preventDefault();
+
     if (this.state.actualAnswer === this.state.expectedAnswer) {
-      console.log("yayyy")
     } else {
-      console.log("booo")
+      return;
     }
   }
 
