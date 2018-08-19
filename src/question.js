@@ -47,7 +47,7 @@ class Question extends React.Component {
           <label>
             { this.state.question }
            </label>
-           <div className="Answer">
+           <div className="Choices">
              {
                this.state.allAnswers.map((answer, index) =>
                  <div>

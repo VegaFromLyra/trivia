@@ -40,10 +40,19 @@
   margin-left: -150px;
 }
 
-.QuestionForm {
+.Answer {
+  position: absolute;
+
+  width: 300px;
+  height: 300px;
+
+  top: 80%;
+  left: 50%;
+  margin-top: -150px;
+  margin-left: -150px;
 }
 
-.Answer {
+.Choices {
   padding-top: 5px;
 }
 
