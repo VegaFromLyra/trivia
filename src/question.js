@@ -8,21 +8,21 @@ class Question extends React.Component {
       question: "",
       allAnswers: [],
       actualAnswer: "",
-      expectedAnswer: ""
+      expectedAnswer: "",
     };
   }
 
   onSubmit = (e) => {
-    e.preventDefault();
-
-    if (this.state.actualAnswer === this.state.expectedAnswer) {
-    } else {
-      return;
-    }
   }
 
   onChangeAnswer = (e) => {
     this.setState({ actualAnswer: e.target.value })
+
+    if (this.state.actualAnswer === this.state.expectedAnswer) {
+      this.props.onAnswerChange("correct");
+    } else {
+      this.props.onAnswerChange("incorrect");
+    }
   }
 
   componentWillMount() {
@@ -57,7 +57,7 @@ class Question extends React.Component {
              }
            </div>
            <div className="SubmitContainer">
-             <input type="submit" value="Submit" />
+             <input type="submit" value="Next one" />
            </div>
         </form>
       </div>
