@@ -7,18 +7,14 @@ class Question extends React.Component {
     this.state = {
       question: "",
       allAnswers: [],
-      actualAnswer: "",
       expectedAnswer: "",
     };
   }
 
-  onSubmit = (e) => {
-  }
-
   onChangeAnswer = (e) => {
-    this.setState({ actualAnswer: e.target.value })
+    let actualAnswer = e.target.value;
 
-    if (this.state.actualAnswer === this.state.expectedAnswer) {
+    if (actualAnswer === this.state.expectedAnswer) {
       this.props.onAnswerChange("correct");
     } else {
       this.props.onAnswerChange("incorrect");
@@ -31,10 +27,11 @@ class Question extends React.Component {
     }).then(data => {
       var first_qna_set = data.results[0];
       var question = first_qna_set.question;
+      var expectedAnswer = first_qna_set.correct_answer; 
       var allAnswers = [first_qna_set.correct_answer].concat(first_qna_set.incorrect_answers);
       this.setState({
         question: question,
-        expectedAnswer: first_qna_set.correct_answer,
+        expectedAnswer: expectedAnswer,
         allAnswers: allAnswers
       });
     });
