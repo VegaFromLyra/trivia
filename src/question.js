@@ -5,29 +5,34 @@ class Question extends React.Component {
     super(props);
 
     this.state = {
-      trivia: {},
-      submittedAnswer: ""
+      question: "",
+      allAnswers: [],
+      expectedAnswer: "",
     };
   }
 
-  onSubmit = (e) => {
-    if (this.state.submittedAnswer === this.state.trivia.correct_answer) {
-      console.log("yayyy")
-    } else {
-      console.log("booo")
-    }
-  }
-
   onChangeAnswer = (e) => {
-    this.setState({ submittedAnswer: e.target.value })
+    let actualAnswer = e.target.value;
+
+    if (actualAnswer === this.state.expectedAnswer) {
+      this.props.onAnswerChange("correct");
+    } else {
+      this.props.onAnswerChange("incorrect");
+    }
   }
 
   componentWillMount() {
     fetch(process.env.REACT_APP_TRIVIA_API).then(response => {
       return response.json();
     }).then(data => {
+      var first_qna_set = data.results[0];
+      var question = first_qna_set.question;
+      var expectedAnswer = first_qna_set.correct_answer; 
+      var allAnswers = [first_qna_set.correct_answer].concat(first_qna_set.incorrect_answers);
       this.setState({
-        trivia: data.results[0]
+        question: question,
+        expectedAnswer: expectedAnswer,
+        allAnswers: allAnswers
       });
     });
   }
@@ -37,14 +42,20 @@ class Question extends React.Component {
       <div className="QuestionContainer">
         <form className="QuestionForm" onSubmit={this.onSubmit}>
           <label>
-             { this.state.trivia.question }
-            <div className="Answer">
-              <input type="text" name="answer" onChange={this.onChangeAnswer}/>
-            </div>
-          </label>
-          <div className="SubmitContainer">
-            <input type="submit" value="Submit" />
-          </div>
+            { this.state.question }
+           </label>
+           <div className="Choices">
+             {
+               this.state.allAnswers.map((answer, index) =>
+                 <div>
+                   <input name="choices" type="radio" value={answer} onChange={this.onChangeAnswer} /> {answer}
+                 </div>
+               )
+             }
+           </div>
+           <div className="SubmitContainer">
+             <input type="submit" value="Next one" />
+           </div>
         </form>
       </div>
     );
